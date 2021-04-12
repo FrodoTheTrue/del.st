@@ -1,2 +1,2 @@
 # del.st
-Anonymous delivery static files
+Delivery security trust
