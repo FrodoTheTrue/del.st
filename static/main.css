@@ -1,0 +1,67 @@
+.upload-btn {
+    background-color: DodgerBlue;
+    border: 1px solid white;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 3px;
+  }
+  
+  /* Darker background on mouse-over */
+.upload-btn:hover {
+    background-color: RoyalBlue;
+}
+
+.container {
+    border: 3px dashed black;
+
+	position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	
+	margin: auto;
+  }
+
+body, html {
+    height: 100%;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #00defc, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.slogan {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin: 20px;
+}
+
+
+/* body {
+	background-blend-mode: screen;
+	background:
+		linear-gradient(limegreen, transparent),
+		linear-gradient(90deg, skyblue, transparent),
+		linear-gradient(-90deg, coral, transparent);
+} */
+
+
