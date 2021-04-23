@@ -8,8 +8,11 @@
 <body>
     <div class="background">
         <div class="container">
-            <a class="download-btn" href="/s/{{file_id}}" download="{{file_name}}"><i class="fa fa-download"> </i>Download file</a>
+            <div class="slogan">Link to share this file: <a href="https://del-st-xwqqlm3wva-uc.a.run.app/d/{{file_id}}">https://del-st-xwqqlm3wva-uc.a.run.app/d/{{file_id}}</a></div>
             <div class="slogan">Filename: {{file_name}}</div>
+            <div class="slogan">Size: {{file_size}}</div>
+            <div class="slogan-passed"><i class="fa fa-check-circle"></i> Malware scan passed</div>
+            <a class="download-btn" href="/s/{{file_id}}" download="{{file_name}}"><i class="fa fa-download"></i> Download file</a>
         </div>
     </div>
     <script src="/static/download.js"></script>

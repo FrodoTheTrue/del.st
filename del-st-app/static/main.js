@@ -1,6 +1,7 @@
 const inputFile = document.getElementById('inputFile');
 
 function upload(file) {
+    document.getElementById("fa-upload").className = "fa fa-cog fa-spin";
     var data = new FormData()
     data.append('file', file)
 
@@ -9,6 +10,16 @@ function upload(file) {
         body: data
     }).then(data => data.json())
     .then(body => {
+        if (body.status === 'infected') {
+            window.location.pathname = '/virus_found';
+            return;
+        }
+
+        if (body.status === 'failed') {
+            window.localtion.pathame = '/error';
+            return;
+        }
+
         if (body.file_id) {
             window.location.pathname = '/d/' + body.file_id;
         }
