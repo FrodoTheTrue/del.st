@@ -8,12 +8,25 @@
 <body>
     <div class="background">
         <div class="container">
-            <div class="slogan">Link to share this file: <a href="https://del-st-xwqqlm3wva-uc.a.run.app/d/{{file_id}}">https://del-st-xwqqlm3wva-uc.a.run.app/d/{{file_id}}</a></div>
-            <div class="slogan">Filename: {{file_name}}</div>
-            <div class="slogan">Size: {{file_size}}</div>
-            <div class="slogan-passed"><i class="fa fa-check-circle"></i> Malware scan passed</div>
-            <a class="download-btn" href="/s/{{file_id}}" download="{{file_name}}"><i class="fa fa-download"></i> Download file</a>
+            {% if encrypted %}
+                <div class="slogan">Link to share this file: <a href="https://delst.io/d/{{file_id}}">https://delst.io/d/{{file_id}}</a></div>
+                <div class="slogan">Filename: <span id='file_name'>{{file_name}}</span></div>
+                <div class="slogan">Size: {{file_size}}</div>
+                <div class="slogan-warning"><i class="fa fa-exclamation-triangle"></i> File encrypted, we don't know what is inside! Be carefull!</div>
+                <div class="slogan">
+                    <input class="input-key" id="encryption-key" type="password" placeholder="Encryption key">
+                    <button id="download" class="download-btn"><i class="fa fa-download"></i> Decrypt and download</button>
+                </div>
+            {% else %}
+                <div class="slogan">Link to share this file: <a href="https://delst.io/d/{{file_id}}">https://delst.io/d/{{file_id}}</a></div>
+                <div class="slogan">Filename: {{file_name}}</div>
+                <div class="slogan">Size: {{file_size}}</div>
+                <div class="slogan-passed"><i class="fa fa-check-circle"></i> Malware scan passed</div>
+                <a class="download-btn" href="/s/{{file_id}}" download="{{file_name}}"><i class="fa fa-download"></i> Download file</a>
+            {% endif %}
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
     <script src="/static/download.js"></script>
 </body>

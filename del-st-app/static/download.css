@@ -63,3 +63,18 @@ body, html {
     font-size: 18px;
     margin: 10px;
 }
+
+.slogan-warning {
+    text-align: center;
+    color: #ffee00;
+    font-size: 18px;
+    margin: 10px;
+}
+
+.input-key {
+    border: 1px solid white;
+    padding: 12px 30px;
+    font-size: 20px;
+    border-radius: 3px;
+    text-decoration: none;
+}

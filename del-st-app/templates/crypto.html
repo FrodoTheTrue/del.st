@@ -1,0 +1,20 @@
+<!doctype html>
+<head>
+    <title>Del.ST</title>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="background">
+        <div id="main-container" class="container">
+            <input type="file" id="inputFile" hidden/>
+            <label class="upload-btn" for="inputFile"><i id="fa-upload" class="fa fa-upload"></i> Encrypt and Upload file </label>
+            <div class="slogan">Delivery. Security. Trust. </br>Anonymous filesharing with client encryption </br> 24h per file</div>
+            <div class="slogan"><a href="/">Switch to version without encryption</a></div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="/static/encryption.js"></script>
+</body>

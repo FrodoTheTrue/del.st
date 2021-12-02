@@ -47,6 +47,29 @@ bucket = storage_client.get_bucket(GCP_BUCKET)
 spanner_client = spanner.Client()
 spanner_db = spanner_client.instance(GCP_SPANNER_INSTANCE).database(GCP_SPANNER_DATABASE)
 
+@app.route('/api/upload-crypto/<key>', methods=['POST'])
+def upload_crypto(key):
+    f = request.files['file']
+    file_path = '/tmp/' + key
+    original_filename = werkzeug.utils.secure_filename(f.filename)
+    f.save(file_path)
+
+    blob = bucket.blob(key)
+    blob.upload_from_filename(file_path)
+
+    def insert_new_file(transaction):
+        transaction.execute_update(
+            f"INSERT Files (FileId, BucketName, FileName, Timestamp, Outdated, Encrypted) "
+            f" VALUES ('{key}', '{blob.bucket.name}', '{original_filename}', CURRENT_TIMESTAMP, False, True)"
+        )
+
+    spanner_db.run_in_transaction(insert_new_file)
+
+    return {}
+
+@app.route('/crypto')
+def crypto():
+    return render_template('crypto.html')
 
 @app.route('/virus_found')
 def virus_found():
@@ -76,7 +99,6 @@ def fresh():
 
     return 'ok'
 
-
 @app.route('/s/<file_id>')
 def storage_proxy(file_id):
     blob = bucket.blob(file_id)
@@ -85,11 +107,11 @@ def storage_proxy(file_id):
         return send_file(temp.name, attachment_filename=file_id)
 
 
-@app.route('/d/<file_id>')
-def download(file_id):
+@app.route('/d/<id>')
+def download(id):
     def get_file(transaction):
         result = transaction.execute_sql(
-            f"SELECT FileId, BucketName, FileName FROM Files WHERE FileId = '{file_id}' AND Outdated = FALSE"
+            f"SELECT FileId, FileName, Encrypted FROM Files WHERE FileId = '{id}' AND Outdated = FALSE"
         ).one_or_none()
 
         return result
@@ -99,10 +121,20 @@ def download(file_id):
     if not result:
         return render_template('404.html'), 404
 
-    blob = bucket.blob(result[0])
+    file_id, file_name, encrypted = result
+
+    blob = bucket.blob(file_id)
     blob.reload()
 
-    return render_template('download.html', file_name=result[2], file_id=result[0], file_size=humanbytes(blob.size))
+    file_size = humanbytes(blob.size)
+
+    return render_template(
+        'download.html', 
+        file_name=file_name, 
+        file_id=file_id, 
+        file_size=file_size,
+        encrypted=encrypted,
+    )
 
 
 @app.route('/api/upload/', methods=['POST'])
@@ -126,8 +158,8 @@ def upload():
 
     def insert_new_file(transaction):
         transaction.execute_update(
-            f"INSERT Files (FileId, BucketName, FileName, Timestamp, Outdated) "
-            f" VALUES ('{generated_filename}', '{blob.bucket.name}', '{original_filename}', CURRENT_TIMESTAMP, False)"
+            f"INSERT Files (FileId, BucketName, FileName, Timestamp, Outdated, Encrypted) "
+            f" VALUES ('{generated_filename}', '{blob.bucket.name}', '{original_filename}', CURRENT_TIMESTAMP, False, False)"
         )
 
     spanner_db.run_in_transaction(insert_new_file)
