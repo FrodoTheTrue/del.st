@@ -17,7 +17,7 @@ function upload(file) {
         }
 
         if (body.status === 'failed') {
-            window.localtion.pathame = '/error';
+            window.location.pathame = '/error';
             return;
         }
 
