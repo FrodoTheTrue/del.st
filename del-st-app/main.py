@@ -17,7 +17,9 @@ app = Flask(
     static_url_path='/static',
 )
 
-AZURE_CONTAINER = os.environ.get('GCP_BUCKET', 'delst-storage')
+connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+AZURE_CONTAINER = os.environ.get('AZURE_CONTAINER', 'delst-storage')
+
 AZURE_ACCOUNT_URI = os.environ.get('AZURE_ACCOUNT_URI')
 AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY')
 AZURE_COSMOS_DB_NAME = os.environ.get('AZURE_COSMOS_DB_NAME', 'delst-db')
@@ -44,7 +46,6 @@ def humanbytes(B):
    elif TB <= B:
       return '{0:.2f} TB'.format(B/TB)
 
-connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 blob_service_client = BlobServiceClient.from_connection_string(connect_str)
 container_client = blob_service_client.get_container_client(AZURE_CONTAINER)
 
